@@ -1,20 +1,25 @@
-# Fibonacci numbers module
+from flask import Flask, render_template
 
-def fib(n):    # write Fibonacci series up to n
-    a, b = 0, 1
-    while a < n:
-        print(a, end=' ')
-        a, b = b, a+b
-    print()
+app = Flask(__name__)
 
-def fib2(n):   # return Fibonacci series up to n
+
+@app.route('/')
+def index():
+    return 'index page'
+
+
+@app.route('/hello')
+def hello_world():
+    return 'hello world!'
+
+
+@app.route('/fib/<int:n>', methods=['GET'])
+def fib(n):
     result = []
     a, b = 0, 1
     while a < n:
         result.append(a)
-        a, b = b, a+b
-    return result
+        a, b = b, a + b
 
-if __name__ == "__main__":
-    import sys
-    fib(int(sys.argv[1]))
+    response_data = {'data': result}
+    return render_template('fibo.html', response=response_data)
